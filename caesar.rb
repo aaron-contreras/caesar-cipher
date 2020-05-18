@@ -1,4 +1,3 @@
-require 'pry'
 def shift(base_value, range, ascii_letter, shift_factor)
   raw_shifts = ascii_letter - base_value + shift_factor
   net_shifts = (raw_shifts % range + range) % range
@@ -22,6 +21,8 @@ def caesar_cipher(string, shift_factor)
     end
   end.join
 end
+
+#########################
 
 puts
 puts "YOUR FRIENDLY NEIGHBORHOOD CAESAR CIPHER.".center(80)
