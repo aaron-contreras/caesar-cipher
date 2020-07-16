@@ -1,49 +1,66 @@
 require_relative '../lib/caesar.rb'
 
 describe '#caesar_cipher' do
-  context 'no shifts' do
+  subject { caesar_cipher(string, shift_factor) }
+  let(:string) { 'Pants'}
+
+
+  context 'given no shifts' do
+    let(:shift_factor) { 0 }
     it 'returns the same string given as an argument' do
-      expect(caesar_cipher('Aaron', 0)).to eq 'Aaron'
+      expect(subject).to eq string
     end
   end
   
   context 'positive shifts' do
-    it 'returns "bbb" given "aaa" and 1' do
-      expect(caesar_cipher('aaa', 1)).to eq 'bbb'
+    context 'given non-alphanumeric characters' do
+      let(:string) { 'Pants*/&&^' }
+      let(:shift_factor) { 1 }
+
+      it 'only shifts alphanumeric characters' do
+        expect(subject).to eq 'Qbout*/&&^'
+      end
     end
 
-    it 'returns "zzz" given "aaa" and 25' do
-      expect(caesar_cipher('aaa', 25)).to eq 'zzz'
+    context 'given small shifts' do
+      let(:shift_factor) { 1 }
+
+      it 'returns "Qbout"' do
+        expect(subject).to eq 'Qbout'
+      end
     end
 
-    it 'returns "aaa" given "aaa" and 26' do
-      expect(caesar_cipher('aaa', 26)).to eq 'aaa'
-    end
+    context 'given large shifts' do
+      let(:shift_factor) { 104 }
 
-    it 'returns "aaa" given "aaa" and 104' do
-      expect(caesar_cipher('aaa', 104)).to eq 'aaa'
-    end
-
-    it 'returns "Bbspo" given "Aaron" and 1' do
-      expect(caesar_cipher('Aaron', 1)).to eq 'Bbspo'
+      it 'wraps around properly' do
+        expect(subject).to eq 'Pants'
+      end
     end
   end
   
   context 'negative shifts' do
-    it 'returns "aaa" given "bbb" and -1' do
-      expect(caesar_cipher('bbb', -1)).to eq 'aaa'
+    context 'given non-alphanumeric characters' do
+      let(:string) { 'Pants*/&&^' }
+      let(:shift_factor) { 1 }
+
+      it 'only shifts alphanumeric characters' do
+        expect(subject).to eq 'Qbout*/&&^'
+      end
     end
 
-    it 'returns "Aqnjd" given "Broke" and -1' do
-      expect(caesar_cipher('Broke', -1)).to eq 'Aqnjd'
+    context 'given small shifts' do
+      let(:shift_factor) { -1 }
+      it 'returns "Ozmsr"' do
+        expect(subject).to eq 'Ozmsr'
+      end
     end
 
-    it 'returns "aaa" given "aaa" and -104' do
-      expect(caesar_cipher('aaa', -104)).to eq 'aaa'
-    end
-
-    it 'returns "Panama" given "Panama" and -104' do
-      expect(caesar_cipher('Panama', -104)).to eq 'Panama'
+    context 'given large shifts' do
+      let(:shift_factor) { -104 }
+      it 'wraps around properly' do
+        expect(subject).to eq 'Pants'
+      end
     end
   end
 end
