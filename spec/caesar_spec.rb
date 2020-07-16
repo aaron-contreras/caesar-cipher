@@ -4,7 +4,6 @@ describe '#caesar_cipher' do
   subject { caesar_cipher(string, shift_factor) }
   let(:string) { 'Pants'}
 
-
   context 'given no shifts' do
     let(:shift_factor) { 0 }
     it 'returns the same string given as an argument' do
